@@ -7,6 +7,7 @@ import { handleChainChange } from "../../utils/handleChainChange";
 import { toast } from "react-hot-toast";
 import "./Wallet.css";
 
+// eslint-disable-next-line react/prop-types
 const Wallet =({children})=>{
  const [state,setState]=useState({
     provider:null,

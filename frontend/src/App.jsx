@@ -1,34 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from "react"
+import Wallet from "./components /Wallet/Wallet.jsx"
+import Navigation from "./components /Navigation/Navigation"
+import DisplayPannel from './components /Display Pannel/DisplayPannel'
+import TokenApproval from './components /StakeToken/TokenApproval'
+import StakeAmount from './components /StakeToken/StakeAmount'
+import WithdrawStakeAmount from './components /Withdraw/Withdraw'
+import { StakingProvider } from './context/StakingContext'
 import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [displaySection, setDisplaySection] = useState("stake");
+
+  const handleButtonClick = (section) => {
+    setDisplaySection(section);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="main-section">
+      <Wallet>
+        <Navigation />
+        <StakingProvider>
+          <DisplayPannel />
+          <div className="main-content">
+            <div className="button-section">
+              <button
+                onClick={() => handleButtonClick("stake")}
+                className={displaySection === "stake" ? "" : "active"}
+              >
+                Stake
+              </button>
+              <button
+                onClick={() => handleButtonClick("withdraw")}
+                className={displaySection === "withdraw" ? "" : "active"}
+              >
+                Withdraw
+              </button>
+            </div>
+            {displaySection === "stake" && (
+              <div className="stake-wrapper">
+                <TokenApproval />
+                <StakeAmount />
+              </div>
+            )}
+            {displaySection === "withdraw" && (
+              <div className="stake-wrapper">
+                <WithdrawStakeAmount />
+              </div>
+            )}
+          </div>
+        </StakingProvider>
+      </Wallet>
+    </div>
   )
 }
 
